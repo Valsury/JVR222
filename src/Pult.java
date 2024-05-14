@@ -10,13 +10,16 @@ public class Pult extends JFrame {
     private String[] textFieldStrings;
     private int buttonsCount;
     private String textOut;
+
+    private Supervisor supervisor;
     private ArrayList<RoundButton> arrRoundButton;
 
-    public Pult(String[] textFieldStrings, int buttonsCount) {
+    public Pult(String[] textFieldStrings, int buttonsCount, Supervisor supervisor) {
 
         this.textFieldStrings = textFieldStrings;
         this.buttonsCount = buttonsCount;
         arrRoundButton = new ArrayList<RoundButton>();
+        this.supervisor= supervisor;
     }
 
 
@@ -47,7 +50,7 @@ public class Pult extends JFrame {
             }
         }
 
-        addLabelTextRows(labels, textControlsPane, false, arrRoundButton, frame);
+        addLabelTextRows(labels, textControlsPane, false, arrRoundButton, frame,supervisor);
         container.add(textControlsPane, BorderLayout.WEST);
         GridBagConstraints contc = new GridBagConstraints();
         contc.gridwidth = 3;
@@ -77,7 +80,7 @@ public class Pult extends JFrame {
                 labels[i] = new JLabel(" ");
             }
         }
-        addLabelTextRows(labels, ports, true, arrRoundButton, frame);
+        addLabelTextRows(labels, ports, true, arrRoundButton, frame, supervisor);
         GridBagConstraints contc = new GridBagConstraints();
         contc.gridwidth = 3;
         contc.gridheight = 3;
@@ -110,9 +113,10 @@ public class Pult extends JFrame {
         frame.add(pane, contr);
     }
 
-    private void addLabelTextRows(JLabel[] labels, Container pane, boolean circle, ArrayList<RoundButton> arrRoundButton, JFrame frame) {
+    private void addLabelTextRows(JLabel[] labels, Container pane, boolean circle,
+                                  ArrayList<RoundButton> arrRoundButton, JFrame frame ,Supervisor supervisor) {
         JButton button;
-        MyActionListener myActionListener = new MyActionListener(arrRoundButton, frame);
+        MyActionListener myActionListener = new MyActionListener(arrRoundButton, frame, supervisor);
         pane.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         int numLabels = labels.length;
