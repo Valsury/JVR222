@@ -6,6 +6,7 @@ public class PrinterController implements IPrinter {
         this.printer=printer;
     }
 
+    @Override
     public void print(String message)
     {
         printer.print(message);

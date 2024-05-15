@@ -20,63 +20,31 @@ public class RoundButton extends JButton {
         } else {
             g.setColor(getBackground());
         }
-        g.fillOval(0, 0, getSize().width-1, getSize().height-1);
+        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
         super.paintComponent(g);
 
     }
-    protected  void paintBorder(Graphics g)
-    {
+
+    protected void paintBorder(Graphics g) {
         g.setColor(color);
-        g.fillOval(0, 0, getSize().width-1, getSize().height-1);
+        g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
     }
 
     Shape shape;
-    public boolean contains(int x, int y)
-    {
-        if(shape == null ||
-        !shape.getBounds().equals(getBounds()))
-        {
-            shape = new Ellipse2D() {
-                @Override
-                public double getX() {
-                    return 0;
-                }
 
-                @Override
-                public double getY() {
-                    return 0;
-                }
+    public boolean contains(int x, int y) {
+        if (shape == null ||
+                !shape.getBounds().equals(getBounds())) {
+            shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
 
-                @Override
-                public double getWidth() {
-                    return 0;
-                }
-
-                @Override
-                public double getHeight() {
-                    return 0;
-                }
-
-                @Override
-                public boolean isEmpty() {
-                    return false;
-                }
-
-                @Override
-                public void setFrame(double x, double y, double w, double h) {
-
-                }
-
-                @Override
-                public Rectangle2D getBounds2D() {
-                    return null;
-                }
-            };
         }
-        return  shape.contains(x,y);
+        return shape.contains(x, y);
     }
-    public  Color getColor(){return  color;}
+    public Color getColor() {
+        return color;
+    }
 
-    public  void setColor(Color color){this.color = color;}
-
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

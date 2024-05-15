@@ -33,7 +33,7 @@ public class MyActionListener implements ActionListener {
                 rb.setColor(new Color(193, 198, 196));
             }
         }
-        JButton button = (JButton) e.getSource();
+        JButton button = (JButton)e.getSource();
         frame.repaint();
 
     }
