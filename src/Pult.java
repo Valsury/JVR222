@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class Pult extends JFrame {
     private String[] textFieldStrings;
     private int buttonsCount;
+
+    private  JTextPane pane;
     private String textOut;
 
     private Supervisor supervisor;
@@ -19,6 +21,7 @@ public class Pult extends JFrame {
         this.textFieldStrings = textFieldStrings;
         this.buttonsCount = buttonsCount;
         arrRoundButton = new ArrayList<RoundButton>();
+        pane=new JTextPane();
         this.supervisor= supervisor;
     }
 
@@ -36,17 +39,63 @@ public class Pult extends JFrame {
 
     }
 
-    private void makePultContainer(JFrame frame) {
+    private void makeMessagesPanel(JFrame frame) {
+        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+        StyleConstants.setFontSize(attributeSet, 16);
+        StyleConstants.setForeground(attributeSet, Color.black);
+        pane.setCharacterAttributes(attributeSet,  true);
+        pane.setText(textOut);
+        GridBagConstraints contr = new GridBagConstraints();
+        contr.fill = GridBagConstraints.BOTH;
+        contr.gridx = 3;
+        contr.gridy = 0;
+        contr.anchor = GridBagConstraints.WEST;
+        contr.weightx = 19.9;
+        contr.weighty = 1.0;
+        contr.insets = new Insets(10, 0, 10, 10);
+        contr.gridwidth = 4;
+        contr.gridheight = 4;
+        final  JScrollPane scrollPane= new JScrollPane(pane);
+        frame.add(scrollPane, contr);
+    }
+
+    private void makePortContainer(JFrame frame) {
         JPanel container = new JPanel();
         container.setPreferredSize(new Dimension(250, 400));
-        JPanel textControlsPane = new JPanel();
-        textControlsPane.setBorder(BorderFactory.createTitledBorder("ПУльт управления"));
-        JLabel[] labels = new JLabel[buttonsCount];
-        for (int i = 0; i < buttonsCount; i++) {
+        JLabel[] labels = new JLabel[buttonsCount-1];
+        JPanel ports = new JPanel();
+        ports.setBorder(BorderFactory.createTitledBorder("Состояние портов"));
+        container.add(ports, BorderLayout.NORTH);
+        for (int i = 0; i < buttonsCount-1; i++) {
             if (i < textFieldStrings.length) {
                 labels[i] = new JLabel(textFieldStrings[i]);
             } else {
-                labels[i] = new JLabel(" ");
+                labels[i] = new JLabel("");
+            }
+        }
+        addLabelTextRows(labels, ports, true, arrRoundButton, frame, supervisor);
+        GridBagConstraints contc = new GridBagConstraints();
+        contc.gridwidth = 3;
+        contc.gridheight = 3;
+        contc.weightx = 0.0;
+        contc.weighty = 0.0;
+        contc.insets = new Insets(10, 10, 10, 10);
+        contc.gridx = 2;
+        contc.gridy = 1;
+        contc.anchor = GridBagConstraints.SOUTHWEST;
+        frame.getContentPane().add(container, contc);
+    }
+    private void makePultContainer(JFrame frame) {
+        JPanel container = new JPanel();
+        container.setPreferredSize(new Dimension(250, 400));
+        JLabel[] labels = new JLabel[buttonsCount-1];
+        JPanel textControlsPane = new JPanel();
+        textControlsPane.setBorder(BorderFactory.createTitledBorder("Пульт управления"));
+        for (int i = 0; i < buttonsCount-1; i++) {
+            if (i < textFieldStrings.length) {
+                labels[i] = new JLabel(textFieldStrings[i]);
+            } else {
+                labels[i] = new JLabel("");
             }
         }
 
@@ -65,53 +114,8 @@ public class Pult extends JFrame {
 
     }
 
-    private void makePortContainer(JFrame frame) {
 
-        JPanel container = new JPanel();
-        container.setPreferredSize(new Dimension(250, 400));
-        JLabel[] labels = new JLabel[buttonsCount];
-        JPanel ports = new JPanel();
-        ports.setBorder(BorderFactory.createTitledBorder("Состояние портов"));
-        container.add(ports, BorderLayout.NORTH);
-        for (int i = 0; i < buttonsCount; i++) {
-            if (i < textFieldStrings.length) {
-                labels[i] = new JLabel(textFieldStrings[i]);
-            } else {
-                labels[i] = new JLabel(" ");
-            }
-        }
-        addLabelTextRows(labels, ports, true, arrRoundButton, frame, supervisor);
-        GridBagConstraints contc = new GridBagConstraints();
-        contc.gridwidth = 3;
-        contc.gridheight = 3;
-        contc.weightx = 0.0;
-        contc.weighty = 0.0;
-        contc.insets = new Insets(10, 10, 10, 10);
-        contc.gridx = 2;
-        contc.gridy = 1;
-        contc.anchor = GridBagConstraints.SOUTHWEST;
-        frame.getContentPane().add(container, contc);
-    }
 
-    private void makeMessagesPanel(JFrame frame) {
-        JTextPane pane = new JTextPane();
-        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-       StyleConstants.setFontSize(attributeSet, 16);
-        StyleConstants.setForeground(attributeSet, Color.black);
-        pane.setCharacterAttributes(attributeSet,  true);
-        pane.setText(textOut);
-        GridBagConstraints contr = new GridBagConstraints();
-        contr.fill = GridBagConstraints.BOTH;
-        contr.gridx = 3;
-        contr.gridy = 0;
-        contr.anchor = GridBagConstraints.WEST;
-        contr.weightx = 0.199;
-        contr.weighty = 1.0;
-        contr.insets = new Insets(10, 0, 10, 10);
-        contr.gridwidth = 4;
-        contr.gridheight = 4;
-        frame.add(pane, contr);
-    }
 
     private void addLabelTextRows(JLabel[] labels, Container pane, boolean circle,
                                   ArrayList<RoundButton> arrRoundButton, JFrame frame ,Supervisor supervisor) {
@@ -121,7 +125,7 @@ public class Pult extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
         int numLabels = labels.length;
         for (int i = 0; i < numLabels; i++) {
-            String nm = Integer.toString(i + 1);
+            String nm = Integer.toString(1);
             if (circle) {
                 button = new RoundButton("on" + Integer.toString(i + 1));
                 arrRoundButton.add((RoundButton) button);
@@ -142,12 +146,13 @@ public class Pult extends JFrame {
             pane.add(button, c);
 
             if (circle) {
-                button = new RoundButton("off" + Integer.toString(1));
+                button = new RoundButton("off" + Integer.toString(i + 1));
+                arrRoundButton.add((RoundButton) button);
 
             } else {
                 button = new JButton("off");
                 button.addActionListener(myActionListener);
-                button.setActionCommand("off" + Integer.toString(1));
+                button.setActionCommand("off" + Integer.toString(i + 1));
             }
             c.gridx = 2;
             pane.add(button, c);
@@ -185,6 +190,8 @@ public class Pult extends JFrame {
     public void setTextOut(String textOut)
     {
         this.textOut=textOut;
+        String intext= pane.getText();
+        pane.setText((intext+"\n"+textOut));
     }
 
 }
