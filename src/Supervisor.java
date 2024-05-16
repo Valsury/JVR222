@@ -12,16 +12,16 @@ public class Supervisor implements IPrinter {
         pult = new Pult(textFieldStrings, buttonsCount, this);
         remoteControl = new RemoteControl();
     }
-@Override
+
+    @Override
     public void print(String message) {
 
         pult.setTextOut(remoteControl.toString(message));
-        if(message.length()==3){
-            int slot = Integer.parseInt(message.substring(2,3));
+        if (message.length() == 3) {
+            int slot = Integer.parseInt(message.substring(2, 3));
             remoteControl.onButtonWasPushed((slot));
-        }
-        else {
-            int slot = Integer.parseInt(message.substring(3,4));
+        } else {
+            int slot = Integer.parseInt(message.substring(3, 4));
             remoteControl.offButtonWasPushed((slot));
         }
     }
@@ -36,7 +36,11 @@ public class Supervisor implements IPrinter {
         // Создание устройств
 
         Light livingRoomLight = new Light("в гостинной", pult);
+        Light KitchenLight = new Light("на кухне", pult);
+        Light AllLight = new Light("", pult);
         Stereo livingRoomStereo = new Stereo("в гостинной", pult);
+        GarageDoor LivingGarage = new GarageDoor(pult);
+        CeilingFan LivingFan = new CeilingFan("", pult);
 
 // Создание команд для управления освещением
 
@@ -52,10 +56,36 @@ public class Supervisor implements IPrinter {
         StereoOffCommand stereoOffCommand =
                 new StereoOffCommand(livingRoomStereo);
 
+        GarageDoorOnCommand garageOn =
+                new GarageDoorOnCommand(LivingGarage);
+        GarageDoorOffCommand garageOff =
+                new GarageDoorOffCommand(LivingGarage);
+
+        CeilingFanOnCommand FanOn =
+                new CeilingFanOnCommand(LivingFan);
+        CeilingFanOffCommand FanOff =
+                new CeilingFanOffCommand(LivingFan);
+
+        LivingRoomLightOnCommand KitchenLightOnCommand =
+                new LivingRoomLightOnCommand(KitchenLight);
+        LivingRoomLightOffCommand KitchenLightOffCommand =
+                new LivingRoomLightOffCommand(KitchenLight);
+
+        LivingRoomLightOnCommand AllLightOnCommand =
+                new LivingRoomLightOnCommand(AllLight);
+        LivingRoomLightOffCommand AllLightOffCommand =
+                new LivingRoomLightOffCommand(AllLight);
+
 // Готовые команды связываются с ячейками пульта
 
         remoteControl.setCommand(1, livingRoomLightOnCommand, livingRoomLightOffCommand);
+        remoteControl.setCommand(2, KitchenLightOnCommand, KitchenLightOffCommand);
+        remoteControl.setCommand(3, FanOn, FanOff);
+        remoteControl.setCommand(4, garageOn, garageOff);
         remoteControl.setCommand(5, stereoOnWithCommand, stereoOffCommand);
+        remoteControl.setCommand(6, AllLightOnCommand, AllLightOffCommand);
+
+
     }
 
 }
