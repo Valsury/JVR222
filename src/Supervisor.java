@@ -41,6 +41,7 @@ public class Supervisor implements IPrinter {
         Stereo livingRoomStereo = new Stereo("в гостинной", pult);
         GarageDoor LivingGarage = new GarageDoor(pult);
         CeilingFan LivingFan = new CeilingFan("", pult);
+        PartyMod partyMod = new PartyMod(pult);
 
 // Создание команд для управления освещением
 
@@ -76,14 +77,21 @@ public class Supervisor implements IPrinter {
         LivingRoomLightOffCommand AllLightOffCommand =
                 new LivingRoomLightOffCommand(AllLight);
 
+        PartyModOnCommand partyModOnCommand=
+                new PartyModOnCommand(partyMod);
+        PartyModOffCommand partyModOffCommand =
+                new PartyModOffCommand(partyMod);
+
+
 // Готовые команды связываются с ячейками пульта
 
-        remoteControl.setCommand(1, livingRoomLightOnCommand, livingRoomLightOffCommand);
-        remoteControl.setCommand(2, KitchenLightOnCommand, KitchenLightOffCommand);
-        remoteControl.setCommand(3, FanOn, FanOff);
-        remoteControl.setCommand(4, garageOn, garageOff);
-        remoteControl.setCommand(5, stereoOnWithCommand, stereoOffCommand);
-        remoteControl.setCommand(6, AllLightOnCommand, AllLightOffCommand);
+        remoteControl.setCommand(0, livingRoomLightOnCommand, livingRoomLightOffCommand);
+        remoteControl.setCommand(1, KitchenLightOnCommand, KitchenLightOffCommand);
+        remoteControl.setCommand(2, FanOn, FanOff);
+        remoteControl.setCommand(3, garageOn, garageOff);
+        remoteControl.setCommand(4, stereoOnWithCommand, stereoOffCommand);
+        remoteControl.setCommand(5, AllLightOnCommand, AllLightOffCommand);
+        remoteControl.setCommand(6,partyModOnCommand,partyModOffCommand);
 
 
     }

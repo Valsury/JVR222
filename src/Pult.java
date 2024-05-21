@@ -127,12 +127,12 @@ public class Pult extends JFrame {
         for (int i = 0; i < numLabels; i++) {
             String nm = Integer.toString(1);
             if (circle) {
-                button = new RoundButton("on" + Integer.toString(i + 1));
+                button = new RoundButton("on" + Integer.toString(i));
                 arrRoundButton.add((RoundButton) button);
             } else {
                 button = new JButton("on");
                 button.addActionListener(myActionListener);
-                button.setActionCommand("on" + Integer.toString(i + 1));
+                button.setActionCommand("on" + Integer.toString(i));
             }
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridx = 0;
@@ -146,13 +146,13 @@ public class Pult extends JFrame {
             pane.add(button, c);
 
             if (circle) {
-                button = new RoundButton("off" + Integer.toString(i + 1));
+                button = new RoundButton("off" + Integer.toString(i ));
                 arrRoundButton.add((RoundButton) button);
 
             } else {
                 button = new JButton("off");
                 button.addActionListener(myActionListener);
-                button.setActionCommand("off" + Integer.toString(i + 1));
+                button.setActionCommand("off" + Integer.toString(i ));
             }
             c.gridx = 2;
             pane.add(button, c);
